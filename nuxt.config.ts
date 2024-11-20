@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     '@morev/vue-transitions/nuxt',
     'vue3-carousel-nuxt',
     'floating-vue/nuxt',
-    '@zadigetvoltaire/nuxt-gtm',
     '@nuxtjs/i18n',
   ],
   carousel: {

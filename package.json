@@ -22,7 +22,6 @@
     "@typescript-eslint/parser": "^8.8.0",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/eslint-config-typescript": "^13.0.0",
-    "@zadigetvoltaire/nuxt-gtm": "^0.0.13",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.30.0",
