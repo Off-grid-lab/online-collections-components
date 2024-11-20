@@ -4,6 +4,7 @@ export default defineEventHandler(async () => {
   })
 
   const now = new Date().toISOString()
+  const config = useRuntimeConfig()
 
   const pages = [
     {
@@ -23,7 +24,7 @@ export default defineEventHandler(async () => {
   const fetchAllItems = async () => {
     const res = await $fetch<any>(`${process.env.API_URL}/v2/items?size=1000`, {
       headers: {
-        'X-Frontend': 'moravska-galerie',
+        'X-Frontend': config.public.APP_X_FRONTEND,
         'Accept-Language': 'cs',
       },
     })
@@ -37,7 +38,7 @@ export default defineEventHandler(async () => {
         `${process.env.API_URL}/v2/items?size=1000&page=${page}`,
         {
           headers: {
-            'X-Frontend': 'moravska-galerie',
+            'X-Frontend': config.public.APP_X_FRONTEND,
             'Accept-Language': 'cs',
           },
         }
