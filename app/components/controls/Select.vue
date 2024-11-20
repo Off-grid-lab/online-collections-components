@@ -55,8 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import levenshtein from 'levenshtein-array'
-
 import Search from '~/components/controls/parts/Search.vue'
 import Icon from '~/components/general/Icon.vue'
 import { useControls } from '~/composables/controls'
@@ -139,20 +137,9 @@ const sortedOptions = computed(() => {
       .toLowerCase()
   }
 
-  const filtered = o.filter((l) =>
+  return  o.filter((l) =>
     removeAccents(l.label).includes(removeAccents(searchString.value))
   )
-
-  const sorted = levenshtein(
-    filtered.map((l) => l.label),
-    searchString.value
-  ).sort((a, b) => a.l - b.l)
-
-  return sorted.map((l, i) => ({
-    label: filtered[i].label,
-    value: filtered[i].value,
-    count: filtered[i].count,
-  }))
 })
 
 defineExpose({

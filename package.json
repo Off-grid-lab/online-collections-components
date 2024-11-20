@@ -41,7 +41,6 @@
     "@yeger/vue-masonry-wall": "^5.0.15",
     "floating-vue": "^5.2.2",
     "http-proxy-middleware": "^3.0.2",
-    "levenshtein-array": "^2.2.10",
     "nuxt": "^3.13.0",
     "openseadragon": "^5.0.0",
     "vue": "latest",
