@@ -15,7 +15,7 @@
     </div>
 
     <div v-show="width >= 768" class="flex flex-wrap gap-4">
-      <Boolean name="has_image" :label="t('controls.filter.hasImage')" :default="true" />
+      <Boolean name="has_image" :label="t('controls.filter.hasImage')" />
       <Boolean name="has_iip" :label="t('controls.filter.hasIip')" />
     </div>
 

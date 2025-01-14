@@ -44,7 +44,7 @@
               <Icon name="arrow" class="w-3 -rotate-90" />
             </div>
             <div class="flex flex-col p-6 py-6 gap-6">
-              <Boolean name="has_image" :label="t('controls.filter.hasImage')" :default="true" />
+              <Boolean name="has_image" :label="t('controls.filter.hasImage')" />
               <Boolean name="has_iip" :label="t('controls.filter.hasIip')" />
             </div>
           </div>
