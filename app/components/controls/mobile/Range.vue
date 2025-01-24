@@ -1,17 +1,24 @@
 <template>
   <div class="flex flex-col gap-3 mx-3 serif max-h-[430px]">
-    <Slider v-model="sliderModel" v-bind="{ ...sliderOptions }" @change="isDirty = true" />
-    <div v-if="model" class="flex">
+    <Slider
+      v-model="sliderModel"
+      v-bind="{ ...sliderOptions }"
+      @change="isDirty = true"
+    />
+    <div
+      v-if="model"
+      class="flex"
+    >
       <input
         v-model="model.min"
         class="w-[50%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         type="number"
-      />
+      >
       <input
         v-model="model.max"
         class="w-[50%] text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         type="number"
-      />
+      >
     </div>
   </div>
 </template>
@@ -24,7 +31,7 @@ import { useControls } from '~/composables/controls'
 
 const props = defineProps<{
   label: string
-  keyValue: { min: string; max: string }
+  keyValue: { min: string, max: string }
 }>()
 
 const keyMin = props.keyValue.min
@@ -84,7 +91,8 @@ watch(
 
       filters[filterKeyMin] = model.value.min
       filters[filterKeyMax] = model.value.max
-    } else {
+    }
+    else {
       delete routeParams[keyMin]
       delete routeParams[keyMax]
       delete filters[filterKeyMin]
@@ -93,6 +101,6 @@ watch(
   },
   {
     deep: true,
-  }
+  },
 )
 </script>

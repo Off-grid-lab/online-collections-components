@@ -7,14 +7,23 @@
     @click="onClick"
   >
     <transition-slide mode="out-in">
-      <div v-if="!isLoading" class="flex">
+      <div
+        v-if="!isLoading"
+        class="flex"
+      >
         <span>{{ t('controls.loadMore') }}</span>
-        <Icon name="arrow-down" class="w-5 h-5 ml-1.5" />
+        <Icon
+          name="arrow-down"
+          class="w-5 h-5 ml-1.5"
+        />
       </div>
-      <div v-else>{{ t('controls.loading') }}</div>
+      <div v-else>
+        {{ t('controls.loading') }}
+      </div>
     </transition-slide>
   </button>
 </template>
+
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
 

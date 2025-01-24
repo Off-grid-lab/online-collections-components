@@ -1,5 +1,8 @@
 <template>
-  <NuxtLink :to="item.link" class="relative flex">
+  <NuxtLink
+    :to="item.link"
+    class="relative flex"
+  >
     <Skeleton>
       <Image
         ref="imageRef"
@@ -51,7 +54,7 @@ watch(
       isVisible.value = value
       props.item.update({ loaded: true })
     }
-  }
+  },
 )
 
 const onOpenZoom = () => {

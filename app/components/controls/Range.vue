@@ -1,8 +1,13 @@
 <template>
-  <VDropdown :distance="6" placement="bottom-start" @show="isOpen = true" @hide="isOpen = false">
+  <VDropdown
+    :distance="6"
+    :disabled="isDisabled"
+    placement="bottom-start"
+    @show="isOpen = true"
+    @hide="isOpen = false">
     <div
       class="flex transition-all gap-3 py-2 md:py-3 px-3 md:px-4 bg-white serif border-2 cursor-pointer"
-      :class="{ 'border-dark': isOpen, 'border-white': !isOpen }"
+      :class="{ 'border-dark': isOpen, 'border-white': !isOpen, 'cursor-not-allowed opacity-40': isDisabled, }"
     >
       <div class="grow font-serif">
         {{ label }}
@@ -67,6 +72,7 @@ aggregations[aggKeyMax] = keyMax
 const routeDefaultMin = Number(route.query[keyMin])
 const routeDefaultMax = Number(route.query[keyMax])
 const isDirty = ref(!!routeDefaultMin || !!routeDefaultMax)
+const isDisabled = computed(() => !options.value?.[keyMin] && !options.value?.[keyMax])
 
 const model = ref({
   min: routeDefaultMin ? routeDefaultMin : options.value?.[keyMin],

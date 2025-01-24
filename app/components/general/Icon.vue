@@ -1,5 +1,8 @@
 <template>
-  <svg aria-hidden="true" class="aspect-square">
+  <svg
+    aria-hidden="true"
+    class="aspect-square"
+  >
     <use :href="`#icon-${name}`" />
   </svg>
 </template>

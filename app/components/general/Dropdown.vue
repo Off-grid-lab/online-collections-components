@@ -4,6 +4,7 @@
     :shown="isOpen"
     :distance="6"
     placement="bottom-start"
+    :aria-id="id"
     @show="isOpen = true"
     @hide="isOpen = false"
   >
@@ -45,6 +46,8 @@ const props = defineProps<{
   default?: string
   options: { label: string; value: string }[]
 }>()
+
+const id = useId()
 
 const model = defineModel<string>({
   default: '',

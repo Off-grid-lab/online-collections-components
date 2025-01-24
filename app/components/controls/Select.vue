@@ -4,6 +4,7 @@
     :disabled="isDisabled"
     :distance="6"
     placement="bottom-start"
+    :aria-id="name"
     @show="isOpen = true"
     @hide="isOpen = false"
   >
@@ -17,13 +18,19 @@
     >
       <div class="grow font-serif">
         {{ label }}
-        <span v-if="model.length" class="font-sans font-bold">({{ model.length }})</span>
+        <span
+          v-if="model.length"
+          class="font-sans font-bold"
+        >({{ model.length }})</span>
       </div>
       <div
         :class="{ 'rotate-180 text-primary': isOpen }"
         class="transition-all duration-300 ease-out flex"
       >
-        <Icon name="arrow" class="w-3" />
+        <Icon
+          name="arrow"
+          class="w-3"
+        />
       </div>
     </div>
 
@@ -41,9 +48,13 @@
         >
           <div
             class="text-primary w-6 h-6 border flex items-center transition-all"
-            :class="{ 'bg-primary-light border-primary': model.includes(option.value) }"
+            :class="{ 'bg-primary-light border-primary': internalModel.includes(option.value) }"
           >
-            <Icon v-if="model.includes(option.value)" class="text-primary w-8 h-8" name="check" />
+            <Icon
+              v-if="internalModel.includes(option.value)"
+              class="text-primary w-8 h-8"
+              name="check"
+            />
           </div>
           <div>
             {{ option.label }} <span class="font-sans font-bold">({{ option.count }})</span>
@@ -62,61 +73,32 @@ import { useControls } from '~/composables/controls'
 const props = defineProps<{
   name: string
   label: string
+  default?: string[]
 }>()
 
-const emit = defineEmits<{
-  modelUpdate: []
-}>()
+const { model, options } = await useControls()
 
-const route = useRoute()
-
-const key = props.name
-const aggKey = `terms[${key}]`
-const filterKey = `filter[${key}][]`
-const routeDefault = route.query[key] ? String(route.query[key]) : null
-
-const model = ref(routeDefault ? String(route.query[key]).split('|') : ([] as string[]))
+const internalModel = computed<string[]>({
+  get: () => model[props.name] ?? [],
+  set: value => (model[props.name] = value),
+})
 
 const onToggle = (value: string) => {
-  if (model.value.includes(value)) {
-    model.value = model.value.filter((v) => v !== value)
-  } else {
-    model.value = [...model.value, value]
+  if (internalModel.value.includes(value)) {
+    internalModel.value = internalModel.value.filter(v => v !== value)
+  }
+  else {
+    internalModel.value = [...internalModel.value, value]
   }
 }
-
-const { filters, aggregations, routeParams, options } = await useControls()
-aggregations[aggKey] = key
 
 const isOpen = ref(false)
 const searchString = ref('')
 
-watch(
-  () => model.value,
-  (value) => {
-    emit('modelUpdate')
-
-    if (value.length) {
-      filters[filterKey] = value
-    } else {
-      delete filters[filterKey]
-    }
-
-    if (value.length) {
-      routeParams[key] = value.join('|')
-    } else {
-      delete routeParams[key]
-    }
-  },
-  {
-    immediate: true,
-  }
-)
-
 const isDisabled = computed(() => !sortedOptions.value.length)
 
 const sortedOptions = computed(() => {
-  const o = options.value?.[key]?.map((l) => ({
+  const o = options.value?.[props.name]?.map((l: any) => ({
     label: l.value,
     value: l.value,
     count: l.count,
@@ -137,15 +119,6 @@ const sortedOptions = computed(() => {
       .toLowerCase()
   }
 
-  return  o.filter((l) =>
-    removeAccents(l.label).includes(removeAccents(searchString.value))
-  )
-})
-
-defineExpose({
-  selected: computed(() => model.value.map((value) => ({ value, toggle: () => onToggle(value) }))),
-  onReset: () => (model.value = []),
-  toggle: (value: any) => onToggle(value),
-  name: key,
+  return o.filter((l: any) => removeAccents(l.label).includes(removeAccents(searchString.value)))
 })
 </script>
