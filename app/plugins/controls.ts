@@ -19,11 +19,14 @@ interface Response {
   last_page: number
 }
 
-interface IFilterOption {
+export interface ISetupOptions {
   key: string
-  type: 'boolean' | 'select' | 'hidden' | 'hr'
-  defaultValue?: boolean | string
   label: string
+  type: string
+  defaultValue?: boolean
+  extra?: {
+    rangeKeys?: { min: string, max: string }
+  }
 }
 
 const controlsService = async (
@@ -51,7 +54,7 @@ const controlsService = async (
   //
 
   const controlsComponents = {
-    boolean: (key: string, label: string, defaultValue?: boolean | string) => {
+    boolean: ({ key, label, defaultValue }: ISetupOptions) => {
       const aggKey = `terms[${key}]`
       const filterKey = `filter[${key}]`
 
@@ -69,7 +72,7 @@ const controlsService = async (
       }
     },
 
-    select: (key: string, label: string) => {
+    select: ({ key, label }: ISetupOptions) => {
       const aggKey = `terms[${key}]`
       const filterKey = `filter[${key}][]`
       const routeDefault = route.query[key] ? String(route.query[key]) : null
@@ -80,13 +83,15 @@ const controlsService = async (
         label,
         aggKey,
         filterKey,
-        model: routeDefault ? String(route.query[key]).split('|') : [],
+        initModel: routeDefault ? String(route.query[key]).split('|') : [],
         resetModel: [],
         filter: (value: string[]) => value.length ? { [filterKey]: value } : undefined,
         route: (value: string[]) => (value.length ? { [key]: value.join('|') } : undefined),
         aggregation: () => ({ [aggKey]: key }),
 
-        selected: () => model[key].length ? model[key].map((value: string) => ({ key, value })) : null,
+        selected: () => model[key].length
+          ? model[key].map((value: string) => ({ key, value, label }))
+          : null,
         toggle: (value: string) => {
           const exists = model[key].indexOf(value)
           if (exists > -1) {
@@ -99,7 +104,55 @@ const controlsService = async (
       }
     },
 
-    hidden: (key: string, _label: string, defaultValue?: boolean | string) => {
+    range: ({ key, label, extra }: ISetupOptions) => {
+      const rangeKeys = extra?.rangeKeys ?? { min: 'min', max: 'max' }
+      const aggKey = `terms[${key}]`
+      const filterKey = `filter[${key}]`
+      const routeDefault = route.query[key]
+        ? {
+            min: Number(route.query[key].split('/')[0]),
+            max: Number(route.query[key].split('/')[1]),
+          }
+        : null
+
+      return {
+        type: 'range',
+        key,
+        extra,
+        label,
+        aggKey,
+        filterKey,
+        initModel: routeDefault ? routeDefault : { min: null, max: null },
+        resetModel: { min: null, max: null },
+        filter: (value: any) => ({
+          ...(value.min ? { [`filter[${rangeKeys.min}][gte]`]: value.min } : undefined),
+          ...(value.max ? { [`filter[${rangeKeys.max}][lte]`]: value.max } : undefined),
+        }),
+        route: (value: any) => {
+          if (!value.min && !value.max) return undefined
+
+          return {
+            [key]: `${value.min}/${value.max}`,
+          }
+        },
+        aggregation: () => ({
+          [`min[${rangeKeys.min}]`]: rangeKeys.min,
+          [`max[${rangeKeys.max}]`]: rangeKeys.max,
+        }),
+        selected: () => {
+          if (!model[key].min && !model[key].max) return null
+
+          return [
+            { key, value: `${model[key].min} <> ${model[key].max}`, label },
+          ]
+        },
+        toggle: () => {
+          model[key] = { min: null, max: null }
+        },
+      }
+    },
+
+    hidden: ({ key, defaultValue }: ISetupOptions) => {
       const aggKey = `terms[${key}]`
       const filterKey = `filter[${key}]`
 
@@ -108,7 +161,7 @@ const controlsService = async (
         key,
         aggKey,
         filterKey,
-        model: route.query[key] ? String(route.query[key]) : (defaultValue ?? ''),
+        initModel: route.query[key] ? String(route.query[key]) : (defaultValue ?? ''),
         resetModel: defaultValue ?? '',
         filter: (value: boolean) => (value ? { [filterKey]: true } : undefined),
         route: (value: boolean) => (value ? { [key]: true } : undefined),
@@ -182,8 +235,11 @@ const controlsService = async (
     for (const key in controls) {
       const control = controls[key]
 
-      if (control.selected)
-        filters.push(control.selected() ?? [])
+      if (control.selected) {
+        const selected = control.selected()
+
+        filters.push(selected ?? [])
+      }
     }
 
     return filters.flat()
@@ -239,14 +295,14 @@ const controlsService = async (
   let itemsDataFetch: any = null
   let aggDataFetch: any = null
 
-  async function init(filterOptions: IFilterOption[]) {
+  async function init(filterOptions: ISetupOptions[]) {
     filterOptions.forEach((option) => {
-      const control = controlsComponents[option.type](option.key, option.label, option.defaultValue)
+      const control = controlsComponents[option.type](option)
 
       controls[option.key] = control
 
-      if (control.model) {
-        model[option.key] = control.model
+      if (control.initModel) {
+        model[option.key] = control.initModel
       }
     })
 
@@ -288,15 +344,22 @@ const controlsService = async (
       },
     )
 
-    watch(itemsDataFetch.status, () => {
-      if (itemsDataFetch.status.value === 'pending') {
+    watch(isLoading, () => {
+      if (isLoading.value) {
         indicator.start()
       }
+
       else {
-        indicator.finish()
+        setTimeout(() => {
+          indicator.finish()
+        }, 5000)
       }
     })
   }
+
+  const isLoading = computed(() =>
+    itemsDataFetch?.status.value === 'pending' || aggDataFetch?.status.value === 'pending',
+  )
 
   return {
     init,
@@ -304,12 +367,15 @@ const controlsService = async (
     controls,
 
     page,
-    items,
+    items: computed(() => {
+      if (isLoading.value)
+        return Array.from({ length: 12 }, () => ({ skeleton: true }))
+
+      return items.value
+    }),
     sortBy,
     sortDirection,
-    isLoading: computed(() =>
-      itemsDataFetch.status.value === 'pending' || aggDataFetch.status.value === 'pending',
-    ),
+    isLoading,
     total: computed(() => itemsDataFetch?.data.value?.total ?? 0),
     lastPage: computed(() => itemsDataFetch?.data.value?.last_page ?? 0),
 

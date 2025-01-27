@@ -10,8 +10,16 @@
 const slots = useSlots()
 const isLoaded = ref(false)
 
+const props = defineProps<{
+  forceLoading?: boolean
+}>()
+
 onMounted(() => {
-  const url = slots.default?.()[0].props?.url
+  if (props.forceLoading) {
+    return
+  }
+
+  const url = slots.default?.()[0]?.props?.url
 
   if (url) {
     const img = new Image()
@@ -19,7 +27,8 @@ onMounted(() => {
     img.onload = () => {
       isLoaded.value = true
     }
-  } else {
+  }
+  else {
     isLoaded.value = true
   }
 })

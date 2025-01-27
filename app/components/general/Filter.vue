@@ -9,6 +9,7 @@
         :key="item.key"
         :name="item.key"
         :label="item.label"
+        :extra="item.extra"
       />
     </div>
 

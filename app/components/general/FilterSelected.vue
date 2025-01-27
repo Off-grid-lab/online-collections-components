@@ -7,7 +7,7 @@
       @click="controls[item.key].toggle(item.value)"
     >
       <div class="text-xs">
-        {{ item?.value }}
+        {{ item.label }}: {{ item?.value }}
       </div>
       <Icon
         name="close"
