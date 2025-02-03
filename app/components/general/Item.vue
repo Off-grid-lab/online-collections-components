@@ -2,14 +2,14 @@
   <div v-if="item.skeleton">
     <div
       class="relative flex"
-      :style="{ aspectRatio: 700 / 300 *Math.random() }"
+      :style="{ aspectRatio: getRandom(0.5, 1.8) }"
     >
       <Skeleton force-loading />
     </div>
     <div class="flex mt-4">
       <div class="flex-grow flex gap-2 flex-col items-start">
         <SkeletonLine
-          :style="{ width: 20 + 50 *Math.random() +'%' }"
+          :style="{ width: getRandom(20, 80) +'%' }"
         />
         <SkeletonLine
           class="
@@ -17,7 +17,7 @@
           h-9"
         />
         <SkeletonLine
-          :style="{ width: 10 + 50 *Math.random() +'%' }"
+          :style="{ width: getRandom(10, 50) +'%' }"
         />
       </div>
     </div>
@@ -85,5 +85,9 @@ watch(
 
 const onOpenZoom = () => {
   router.push(`${props.item.link}/zoom`)
+}
+
+const getRandom = (min: number, max: number) => {
+  return Math.random() * (max - min) + min
 }
 </script>
