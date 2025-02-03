@@ -29,25 +29,26 @@ import { useIntersectionObserver } from '@vueuse/core'
 
 import Icon from '~/components/general/Icon.vue'
 
-defineProps<{
+const props = withDefaults(defineProps<{
   isLoading: boolean
   lastPage: number
-}>()
+  enabled?: boolean
+}>(), {
+  enabled: false,
+})
 
 const page = defineModel<number>({
   default: 1,
 })
 
 const target = ref(null)
-const isPagerEnabled = ref(false)
 
 const onClick = () => {
   page.value += 1
-  isPagerEnabled.value = true
 }
 
 const { stop } = useIntersectionObserver(target, ([{ isIntersecting }]) => {
-  if (isIntersecting && isPagerEnabled.value) {
+  if (isIntersecting && props.enabled) {
     page.value += 1
   }
 })

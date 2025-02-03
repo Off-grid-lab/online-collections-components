@@ -357,9 +357,45 @@ const controlsService = async (
     })
   }
 
+  watch(
+    [model, sortBy, sortDirection],
+    () => {
+      reset()
+    },
+    {
+      deep: true,
+    },
+  )
+
   const isLoading = computed(() =>
     itemsDataFetch?.status.value === 'pending' || aggDataFetch?.status.value === 'pending',
   )
+
+  const feedItems = computed(() => {
+    if (isLoading.value) {
+      const skeletons = Array.from({ length: 12 }, () => ({ skeleton: true }))
+
+      return items.value.length ? [...items.value, ...skeletons] : skeletons
+    }
+
+    return items.value
+  })
+
+  const reset = (key?: string, value?: string) => {
+    items.value = []
+    page.value = 1
+    sortBy.value = options.sortBy
+    sortDirection.value = options.sortDirection ?? 'desc'
+
+    if (!key) return
+
+    for (const key in model) {
+      model[key] = controls[key].resetModel
+    }
+
+    if (controls[key])
+      controls[key].toggle(value)
+  }
 
   return {
     init,
@@ -367,12 +403,7 @@ const controlsService = async (
     controls,
 
     page,
-    items: computed(() => {
-      if (isLoading.value)
-        return Array.from({ length: 12 }, () => ({ skeleton: true }))
-
-      return items.value
-    }),
+    items: feedItems,
     sortBy,
     sortDirection,
     isLoading,
@@ -386,19 +417,7 @@ const controlsService = async (
 
     options: computed(() => aggDataFetch?.data.value),
 
-    reset: (key: string, value: string) => {
-      items.value = []
-      page.value = 1
-      sortBy.value = options.sortBy
-      sortDirection.value = options.sortDirection ?? 'desc'
-
-      for (const key in model) {
-        model[key] = controls[key].resetModel
-      }
-
-      if (controls[key])
-        controls[key].toggle(value)
-    },
+    reset,
   }
 }
 
