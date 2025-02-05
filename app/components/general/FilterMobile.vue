@@ -111,6 +111,7 @@
               :key="submenu.key"
               :name="submenu.key"
               :label="submenu.label"
+              :extra="submenu.extra"
             />
           </div>
         </TransitionSlide>
@@ -155,7 +156,7 @@ const components = {
 
 const { t } = useI18n()
 const { width } = useWindowSize()
-const submenu = ref<null | { type: string, label: string, key: string }>(null)
+const submenu = ref<null | { type: string, label: string, key: string, extra: any }>(null)
 const { total, hasFilters, controls, resetFilters, model } = await useControls()
 
 const mobileControls = ['select', 'range']

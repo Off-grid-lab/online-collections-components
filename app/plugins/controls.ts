@@ -360,7 +360,8 @@ const controlsService = async (
   watch(
     [model, sortBy, sortDirection],
     () => {
-      reset()
+      items.value = []
+      page.value = 1
     },
     {
       deep: true,

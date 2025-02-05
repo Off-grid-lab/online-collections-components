@@ -33,7 +33,6 @@
           v-bind="{ ...sliderOptions }"
         />
         <div
-          v-if="model"
           class="flex"
         >
           <input
@@ -99,35 +98,4 @@ const sliderOptions = computed(() => ({
 }))
 
 const isOpen = ref(false)
-
-// watch(options, () => {
-//   if (!isDirty.value) {
-//     model.value = {
-//       min: options.value?.[keyMin],
-//       max: options.value?.[keyMax],
-//     }
-//   }
-// })
-
-// watch(
-//   [model, isDirty],
-//   () => {
-//     if (isDirty.value) {
-//       routeParams[keyMin] = String(model.value.min)
-//       routeParams[keyMax] = String(model.value.max)
-//
-//       filters[filterKeyMin] = model.value.min
-//       filters[filterKeyMax] = model.value.max
-//     }
-//     else {
-//       delete routeParams[keyMin]
-//       delete routeParams[keyMax]
-//       delete filters[filterKeyMin]
-//       delete filters[filterKeyMax]
-//     }
-//   },
-//   {
-//     deep: true,
-//   },
-// )
 </script>

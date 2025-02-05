@@ -37,7 +37,6 @@ import Hr from '~/components/controls/Hr.vue'
 const isMobileMenuOpened = ref(false)
 
 const { width } = useWindowSize()
-const componentRef = ref<InstanceType<typeof Select | typeof Hidden>[]>([])
 
 const components = {
   boolean: Boolean,
