@@ -31,18 +31,19 @@
 }
 
 .carousel {
+    .carousel__pagination {
+        bottom: -10px;
+    }
+
     .carousel__slide {
         align-items: flex-start;
     }
 
     .carousel__pagination-button{
-        padding: 10px;
-         &::after {
-             content: '';
-             width: 10px;
-             height: 10px;
-             border-radius: 50%;
-         }
+        padding: 5px;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
     }
 }
 
