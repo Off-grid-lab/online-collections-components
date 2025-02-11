@@ -329,7 +329,7 @@ const controlsService = async (
     watch(
       itemsDataFetch.data,
       () => {
-        const newItems = itemsDataFetch.data.value?.data.map((data: any) => new Item(data)) ?? []
+        const newItems = itemsDataFetch.data.value?.data?.map((data: any) => new Item(data)) ?? []
 
         if (page.value == 1) {
           items.value = newItems
