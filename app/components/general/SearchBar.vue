@@ -1,33 +1,34 @@
 <template>
-  <div class="relative">
+  <div class="wu-searchbar relative">
     <Search
       v-model="q"
       prepend-icon
+      css="py-2 px-5"
       @focus="isOpen = true"
       @blur="isOpen = false"
     />
     <transition-fade>
       <div
         v-if="isOpen && items.length"
-        class="bg-white absolute top-100% w-full p-4 z-30"
+        class="wu-results bg-white absolute top-100% w-full p-4 z-30"
       >
         <div>{{ t('item.title') }}</div>
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          class="wu-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
           @click="isOpen = false"
         >
           <NuxtLink
             v-for="item in items"
             :key="item.id"
             :to="item.link"
-            class="flex mt-4"
+            class="flex mt-4 wu-item"
           >
             <Image
               :url="item.image"
               class="!w-[56px] h-[56px] object-cover mr-4"
             />
             <div>
-              <div class="font-serif">{{ item.content.author.join(', ') }}</div>
+              <div class="font-serif font-medium">{{ item.content.author.join(', ') }}</div>
               <div>{{ item.content.title }}</div>
             </div>
           </NuxtLink>

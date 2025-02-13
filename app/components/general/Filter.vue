@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col items-start gap-4">
+  <div class="flex flex-col items-start">
     <div
-      class="hidden md:flex flex-wrap gap-x-4 gap-y-2 pb-2"
+      class="hidden md:flex flex-wrap gap-x-4 gap-y-2"
     >
       <component
         :is="components[item.type as keyof typeof components]"
