@@ -9,12 +9,8 @@
     @hide="isOpen = false"
   >
     <div
-      class="flex transition-all gap-3 py-2 md:py-3 px-3 md:px-4 bg-white serif border-2 cursor-pointer"
-      :class="{
-        'border-dark': isOpen,
-        'border-white': !isOpen,
-        'cursor-not-allowed opacity-40': isDisabled,
-      }"
+      class="wu-dropdown flex transition-all gap-3 py-2 md:py-3 px-3 md:px-4  serif  cursor-pointer"
+      :class="cssClasses"
     >
       <div class="grow font-serif">
         <span
@@ -39,18 +35,21 @@
 
     <template #popper>
       <div
-        class="bg-white border-2 border-dark flex flex-col gap-3 p-6 serif overflow-y-scroll max-h-[430px] max-w-[340px]"
+        class="bg-white border-2 border-dark flex flex-col p-3 serif overflow-y-scroll max-h-[430px] max-w-[340px]"
       >
-        <Search v-model="searchString" />
+        <Search
+          v-model="searchString"
+          css="m-3 p-0"
+        />
 
         <div
           v-for="option in sortedOptions"
           :key="option.value"
-          class="flex items-center gap-2 cursor-pointer"
+          class="wu-dropdown-item flex items-center py-1.5 px-3 gap-2 cursor-pointer"
           @click="onToggle(option.value)"
         >
           <div
-            class="text-primary w-6 h-6 border flex items-center transition-all"
+            class="wu-check text-primary w-6 h-6 border flex items-center"
             :class="{ 'bg-primary-light border-primary': internalModel.includes(option.value) }"
           >
             <Icon
@@ -97,6 +96,12 @@ const onToggle = (value: string) => {
 
 const isOpen = ref(false)
 const searchString = ref('')
+
+const cssClasses = computed(() => ({
+  'is--active': internalModel.value.length,
+  'is--disabled': isDisabled.value,
+  'is--open': isOpen.value,
+}))
 
 const isDisabled = computed(() => !sortedOptions.value.length)
 

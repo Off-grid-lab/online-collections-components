@@ -1,10 +1,10 @@
 <template>
-  <div class="flex pl-2 gap-3 cursor-pointer items-center">
+  <div class="flex gap-2 cursor-pointer items-center">
     <input
       :id="name"
       v-model="internalModel"
       type="checkbox"
-      class="text-primary p-3"
+      class="text-primary p-3 focus:ring-0"
     >
 
     <label :for="name">{{ label }}</label>

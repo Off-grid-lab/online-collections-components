@@ -13,13 +13,21 @@
       :class="{ 'border-dark': isOpen, 'border-white': !isOpen }"
     >
       <div class="grow">
-        <slot name="label" :label="label">{{ label }}</slot>
+        <slot
+          name="label"
+          :label="label"
+        >
+          {{ label }}
+        </slot>
       </div>
       <div
         :class="{ 'rotate-180 text-primary': isOpen }"
         class="transition-all duration-300 ease-out flex"
       >
-        <Icon name="arrow" class="w-3" />
+        <Icon
+          name="arrow"
+          class="w-3"
+        />
       </div>
     </div>
     <template #popper>
@@ -44,7 +52,7 @@ import Icon from '~/components/general/Icon.vue'
 
 const props = defineProps<{
   default?: string
-  options: { label: string; value: string }[]
+  options: { label: string, value: string }[]
 }>()
 
 const id = useId()
@@ -61,7 +69,7 @@ onMounted(() => {
 
 const isOpen = ref(false)
 
-const label = computed(() => props.options.find((option) => option.value === model.value)?.label)
+const label = computed(() => props.options.find(option => option.value === model.value)?.label)
 
 function onSelect(value: string) {
   model.value = value

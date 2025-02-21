@@ -8,8 +8,8 @@
     @hide="isOpen = false"
   >
     <div
-      class="flex transition-all gap-3 py-2 md:py-3 px-3 md:px-4 bg-white serif border-2 cursor-pointer"
-      :class="{ 'border-dark': isOpen, 'border-white': !isOpen, 'cursor-not-allowed opacity-40': isDisabled }"
+      class="wu-dropdown flex transition-all gap-3 py-2 md:py-3 px-3 md:px-4  serif cursor-pointer"
+      :class="cssClasses"
     >
       <div class="grow font-serif">
         {{ label }}
@@ -74,8 +74,14 @@ const { model, options } = await useControls()
 const keyMin = props.extra.rangeKeys.min
 const keyMax = props.extra.rangeKeys.max
 
-// const isDirty = ref(!!routeDefaultMin || !!routeDefaultMax)
+const isOpen = ref(false)
 const isDisabled = computed(() => !options.value?.[keyMin] && !options.value?.[keyMax])
+
+const cssClasses = computed(() => ({
+  'is--active': model[props.name].min || model[props.name].max,
+  'is--disabled': isDisabled.value,
+  'is--open': isOpen.value,
+}))
 
 const sliderModel = computed({
   get: () => [
@@ -96,6 +102,4 @@ const sliderOptions = computed(() => ({
   max: options.value?.[keyMax],
   tooltips: false,
 }))
-
-const isOpen = ref(false)
 </script>
