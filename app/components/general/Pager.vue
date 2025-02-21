@@ -7,38 +7,48 @@
     @click="onClick"
   >
     <transition-slide mode="out-in">
-      <div v-if="!isLoading" class="flex">
+      <div
+        v-if="!isLoading"
+        class="flex"
+      >
         <span>{{ t('controls.loadMore') }}</span>
-        <Icon name="arrow-down" class="w-5 h-5 ml-1.5" />
+        <Icon
+          name="arrow-down"
+          class="w-5 h-5 ml-1.5"
+        />
       </div>
-      <div v-else>{{ t('controls.loading') }}</div>
+      <div v-else>
+        {{ t('controls.loading') }}
+      </div>
     </transition-slide>
   </button>
 </template>
+
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
 
 import Icon from '~/components/general/Icon.vue'
 
-defineProps<{
+const props = withDefaults(defineProps<{
   isLoading: boolean
   lastPage: number
-}>()
+  enabled?: boolean
+}>(), {
+  enabled: false,
+})
 
 const page = defineModel<number>({
   default: 1,
 })
 
 const target = ref(null)
-const isPagerEnabled = ref(false)
 
 const onClick = () => {
   page.value += 1
-  isPagerEnabled.value = true
 }
 
 const { stop } = useIntersectionObserver(target, ([{ isIntersecting }]) => {
-  if (isIntersecting && isPagerEnabled.value) {
+  if (isIntersecting && props.enabled) {
     page.value += 1
   }
 })

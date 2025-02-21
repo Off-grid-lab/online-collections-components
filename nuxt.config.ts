@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     inlineSSRStyles: false
   },
   modules: [
+    '@nuxt/eslint',
     '@nuxtjs/sitemap',
     '@nuxtjs/tailwindcss',
     '@morev/vue-transitions/nuxt',
@@ -21,6 +22,11 @@ export default defineNuxtConfig({
   ],
   carousel: {
     prefix: 'Module',
+  },
+  eslint: {
+    config: {
+      stylistic: true
+    }
   },
   vite: {
     vue: {
@@ -50,6 +56,6 @@ export default defineNuxtConfig({
     prefix: 'WU'
   }, {
     path: resolve(__dirname, 'app/components/controls/mobile'),
-    prefix: 'WU'
+    prefix: 'WUMobile'
   }]
 })

@@ -7,7 +7,7 @@
     :src="isLoaded || disableLazy ? url : ''"
     :class="{ 'opacity-0': !isLoaded && !disableLazy }"
     :style="imageStyle"
-  />
+  >
 </template>
 
 <script setup lang="ts">

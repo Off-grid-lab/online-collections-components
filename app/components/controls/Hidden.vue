@@ -1,49 +1,27 @@
 <template>
-  <input v-model="model" type="hidden" />
+  <input
+    v-model="internalModel"
+    type="hidden"
+  >
 </template>
 
 <script setup lang="ts">
 import { useControls } from '~/composables/controls'
 
-const props = defineProps<{ name: string }>()
-
-const key = props.name
-const aggKey = `terms[${key}]`
-const filterKey = `filter[${key}]`
-
-const { filters, aggregations, routeParams } = await useControls()
-aggregations[aggKey] = key
-const route = useRoute()
-
-const model = ref(route.query[key] as string | undefined)
-
-watch(
-  () => model.value,
-  (value) => {
-    if (value) {
-      filters[filterKey] = value
-    } else {
-      delete filters[filterKey]
-    }
-
-    if (value) {
-      routeParams[key] = value
-    } else {
-      delete routeParams[key]
-    }
-  },
+const props = withDefaults(
+  defineProps<{
+    name: string
+    default?: string
+  }>(),
   {
-    immediate: true,
-  }
+    default: '',
+  },
 )
 
-const clear = () => {
-  model.value = undefined
-}
+const { model } = await useControls()
 
-defineExpose({
-  toggle: clear,
-  onReset: clear,
-  name: key,
+const internalModel = computed({
+  get: () => model[props.name] ?? props.default,
+  set: value => model[props.name] = value,
 })
 </script>

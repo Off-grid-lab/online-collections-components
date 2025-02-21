@@ -1,6 +1,6 @@
 {
   "name": "online-collections-components",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,25 +11,14 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@eslint/compat": "1.1.1",
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.11.1",
+    "@nuxt/eslint": "^0.7.5",
     "@nuxtjs/tailwindcss": "^6.12.1",
-    "@stylistic/eslint-plugin-js": "^2.8.0",
     "@tailwindcss/forms": "^0.5.9",
     "@types/openseadragon": "^3.0.10",
-    "@typescript-eslint/eslint-plugin": "^8.8.0",
-    "@typescript-eslint/parser": "^8.8.0",
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/eslint-config-typescript": "^13.0.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-prettier-vue": "^5.0.0",
-    "eslint-plugin-vue": "^9.28.0",
+    "eslint": "^9.18.0",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
+    "typescript": "^5.7.3",
     "vite-plugin-svg-icons": "^2.0.1"
   },
   "dependencies": {
@@ -41,6 +30,7 @@
     "@yeger/vue-masonry-wall": "^5.0.15",
     "floating-vue": "^5.2.2",
     "http-proxy-middleware": "^3.0.2",
+    "mobile-detect": "^1.4.5",
     "nuxt": "^3.13.0",
     "openseadragon": "^5.0.0",
     "vue": "latest",

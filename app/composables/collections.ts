@@ -24,15 +24,15 @@ export const useCollections = (perPage: number = 12) => {
     (): Record<string, number | string> => ({
       page: page.value,
       size: perPage,
-    })
+    }),
   )
 
   const collectionsDataFetch = useBaseFetch<Response>('api/collections', {
     query: query,
     watch: [query],
-    transform: (response) => ({
+    transform: response => ({
       ...response,
-      data: response.data.map((data) => new Collection(data)),
+      data: response.data.map(data => new Collection(data)),
     }),
     immediate: false,
   })
@@ -40,7 +40,8 @@ export const useCollections = (perPage: number = 12) => {
   watch(collectionsDataFetch.data, () => {
     if (page.value == 1) {
       collections.value = collectionsDataFetch.data.value?.data ?? []
-    } else {
+    }
+    else {
       collections.value = [...collections.value, ...(collectionsDataFetch.data.value?.data ?? [])]
     }
   })

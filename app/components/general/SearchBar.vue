@@ -1,12 +1,31 @@
 <template>
   <div class="relative">
-    <Search v-model="q" prepend-icon @focus="isOpen = true" @blur="isOpen = false" />
+    <Search
+      v-model="q"
+      prepend-icon
+      @focus="isOpen = true"
+      @blur="isOpen = false"
+    />
     <transition-fade>
-      <div v-if="isOpen && items.length" class="bg-white absolute top-100% w-full p-4 z-30">
+      <div
+        v-if="isOpen && items.length"
+        class="bg-white absolute top-100% w-full p-4 z-30"
+      >
         <div>{{ t('item.title') }}</div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" @click="isOpen = false">
-          <NuxtLink v-for="item in items" :key="item.id" :to="item.link" class="flex mt-4">
-            <Image :url="item.image" class="!w-[56px] h-[56px] object-cover mr-4" />
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          @click="isOpen = false"
+        >
+          <NuxtLink
+            v-for="item in items"
+            :key="item.id"
+            :to="item.link"
+            class="flex mt-4"
+          >
+            <Image
+              :url="item.image"
+              class="!w-[56px] h-[56px] object-cover mr-4"
+            />
             <div>
               <div class="font-serif">{{ item.content.author.join(', ') }}</div>
               <div>{{ item.content.title }}</div>
@@ -39,5 +58,5 @@ const { data } = await useBaseFetch<{
 
 const { t } = useI18n()
 
-const items = computed(() => data.value?.data.map((item) => new Item(item)) ?? [])
+const items = computed(() => data.value?.data.map(item => new Item(item)) ?? [])
 </script>

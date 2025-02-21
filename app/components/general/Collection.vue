@@ -1,5 +1,8 @@
 <template>
-  <NuxtLink :to="collection.link" class="group">
+  <NuxtLink
+    :to="collection.link"
+    class="group"
+  >
     <Image
       :url="collection.header_image_src"
       :disable-lazy="true"
