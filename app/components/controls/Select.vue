@@ -13,10 +13,11 @@
       :class="cssClasses"
     >
       <div class="grow font-serif">
+        {{ label }}
         <span
           v-if="internalModel.length"
           class="font-bold"
-        >({{ internalModel.length }})</span> {{ label }}
+        >({{ internalModel.length }})</span>
         <span
           v-if="model.length"
           class="font-sans font-bold"

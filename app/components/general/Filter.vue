@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start">
+  <div class="wu-filter flex flex-col items-start">
     <div
       class="hidden md:flex flex-wrap gap-x-4 gap-y-2"
     >
