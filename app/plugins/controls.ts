@@ -64,7 +64,7 @@ const controlsService = async (
         label,
         aggKey,
         filterKey,
-        model: route.query[key] === 'true' ? true : (defaultValue ?? false),
+        initModel: route.query[key] === 'true' ? true : (defaultValue ?? false),
         resetModel: defaultValue ?? false,
         filter: (value: boolean) => (value ? { [filterKey]: true } : undefined),
         route: (value: boolean) => (value ? { [key]: true } : undefined),
