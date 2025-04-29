@@ -62,7 +62,7 @@ const controlsService = async (
         initModel: route.query[key] ? String(route.query[key]) : null,
         resetModel: undefined,
         filter: (value: string) => (value ? { q: value } : undefined),
-        route: (value: string) => ({ [key]: value }),
+        route: () => ({ [key]: model[key] }),
         selected: () => model[key]
           ? [{ key, value: model[key], label }]
           : null,
