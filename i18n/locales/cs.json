@@ -1,0 +1,62 @@
+{
+  "collection": {
+    "resultsCount": "kolekcí|kolekce|kolekce|kolekcí",
+    "title": "Kolekce"
+  },
+  "controls": {
+    "back": "Zpět",
+    "filter": {
+      "hasIip": "Jen se zoom",
+      "hasImage": "Jen s obrázkem",
+      "reset": "Zrušit výběr",
+      "show": "Zobrazit filtr",
+      "submit": "Zobrazit výsledky",
+      "title": "Filtr děl"
+    },
+    "loading": "Načítám...",
+    "loadMore": "Načíst další",
+    "search": {
+      "placeholder": "Napište klíčová slova",
+      "label": "Klíčová slova"
+    }
+  },
+  "featuredCollection": {
+    "label": "Přejít na&NewLine;seznam děl"
+  },
+  "info": {
+    "title": "Info"
+  },
+  "item": {
+    "attribute": {
+      "acquisitionDate": "Datum akvizice",
+      "author": "Autor",
+      "dateRange": "Roky",
+      "dating": "Datace",
+      "exhibition": "Výstava",
+      "identifier": "Inventární číslo",
+      "inscription": "Značení",
+      "measurement": "Rozměry",
+      "medium": "Materiál",
+      "relatedWork": "Sbírka",
+      "tags": "Klíčová slova",
+      "technique": "Technika",
+      "topic": "Námět",
+      "workType": "Výtvarný druh"
+    },
+    "resultsCount": "děl|dílo|díla|děl",
+    "resultsFor": "nalezenych pro",
+    "sortBy": "podle",
+    "sortOptions": {
+      "createdAt": "data přidání",
+      "dateEarliest": "datování",
+      "random": "náhodně",
+      "title": "názvu",
+      "updatedAt": "poslední změny",
+      "viewCount": "počtu zobrazení"
+    },
+    "title": "Díla"
+  },
+  "site": {
+    "credits": "Vyrobil a spravuje"
+  }
+}
