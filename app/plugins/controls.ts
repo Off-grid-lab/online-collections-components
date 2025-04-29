@@ -54,6 +54,22 @@ const controlsService = async (
   //
 
   const controlsComponents = {
+    search: ({ key, label }: ISetupOptions) => {
+      return {
+        type: 'search',
+        key,
+        label,
+        initModel: route.query[key] ? String(route.query[key]) : null,
+        resetModel: undefined,
+        filter: (value: string) => (value ? { q: value } : undefined),
+        route: () => ({ [key]: model[key] }),
+        selected: () => model[key]
+          ? [{ key, value: model[key], label }]
+          : null,
+        toggle: () => model[key] = undefined,
+      }
+    },
+
     boolean: ({ key, label, defaultValue }: ISetupOptions) => {
       const aggKey = `terms[${key}]`
       const filterKey = `filter[${key}]`
