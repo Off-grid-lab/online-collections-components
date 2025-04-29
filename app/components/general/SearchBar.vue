@@ -6,6 +6,7 @@
       css="py-2 px-5"
       @focus="isOpen = true"
       @blur="isOpen = false"
+      @keydown.enter="submit"
     />
     <transition-fade>
       <div
@@ -43,8 +44,15 @@ import Search from '~/components/controls/parts/Search.vue'
 import Item from '~/models/Item'
 import Image from '~/components/general/Image.vue'
 import { useBaseFetch } from '~/composables/fetch'
+import { useControls } from '~/composables/controls'
 
-const q = ref('')
+const props = defineProps<{
+  name: string
+}>()
+
+const { model } = await useControls()
+
+const q = ref(model[props.name])
 const isOpen = ref(false)
 
 const { data } = await useBaseFetch<{
@@ -58,6 +66,16 @@ const { data } = await useBaseFetch<{
 })
 
 const { t } = useI18n()
+
+const submit = () => {
+  model[props.name] = q.value
+  isOpen.value = false
+}
+
+watch(
+  () => model[props.name],
+  (value) => { q.value = value }
+)
 
 const items = computed(() => data.value?.data.map(item => new Item(item)) ?? [])
 </script>
