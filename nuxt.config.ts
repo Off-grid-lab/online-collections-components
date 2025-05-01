@@ -44,7 +44,10 @@ export default defineNuxtConfig({
     autoI18n: false,
     sitemaps: false,
   },
-
+  i18n: {
+    locales: [{ code: 'cs', file: 'cs.json' }],
+    vueI18n: './i18n.config.ts',
+  },
   components: [{
     path: resolve(__dirname, 'app/components/general'),
     prefix: 'WU'
