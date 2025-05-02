@@ -3,12 +3,11 @@ import type { InjectionKey } from 'vue'
 
 import Item from '~/models/Item'
 import { useBaseFetch } from '~/composables/fetch'
+import { defaultSortBy, defaultSortDirection } from '~/composables/useDefaultSort'
 
 export const ControlsSymbol: InjectionKey<ReturnType<typeof controlsService>> = Symbol('controls')
 
 interface IFilterConfig {
-  sortBy: string
-  sortDirection?: 'asc' | 'desc'
   perPage: number
 }
 
@@ -31,8 +30,6 @@ export interface ISetupOptions {
 
 const controlsService = async (
   options: IFilterConfig = {
-    sortBy: 'updated_at',
-    sortDirection: 'desc',
     perPage: 12,
   },
 ) => {
@@ -44,10 +41,8 @@ const controlsService = async (
   const controls = reactive<Record<string, any>>({})
   const model = reactive<Record<string, any>>({})
   const page = ref(route.query.page ? Number(route.query.page) : 1)
-  const sortBy = ref(route.query.sortBy ? String(route.query.sortBy) : options.sortBy)
-  const sortDirection = ref(
-    route.query.sortDirection ? String(route.query.sortDirection) : options.sortDirection,
-  )
+  const sortBy = ref(route.query.sortBy)
+  const sortDirection = ref(route.query.sortDirection)
 
   //
   // Components setup
@@ -279,10 +274,10 @@ const controlsService = async (
       Object.assign(params, control.route(model[key]))
     }
 
-    if (sortBy.value !== options.sortBy) {
+    if (sortBy.value !== defaultSortBy.value) {
       params['sortBy'] = sortBy.value
     }
-    if (sortDirection.value !== options.sortDirection) {
+    if (sortDirection.value !== defaultSortDirection.value) {
       params['sortDirection'] = sortDirection.value
     }
 
@@ -401,8 +396,8 @@ const controlsService = async (
   const reset = (key?: string, value?: string) => {
     items.value = []
     page.value = 1
-    sortBy.value = options.sortBy
-    sortDirection.value = options.sortDirection ?? 'desc'
+    sortBy.value = defaultSortBy.value
+    sortDirection.value = defaultSortDirection.value
 
     if (!key) return
 
