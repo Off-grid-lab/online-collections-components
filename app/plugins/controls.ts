@@ -182,6 +182,7 @@ const controlsService = async (
         filter: (value: string) => (value ? { [filterKey]: value } : undefined),
         route: (value: string) => (value ? { [key]: value } : undefined),
         aggregation: () => ({ [aggKey]: key }),
+        toggle: (value: string) => model[key] = value ? value : undefined,
       }
     },
 
