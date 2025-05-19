@@ -179,8 +179,8 @@ const controlsService = async (
         filterKey,
         initModel: route.query[key] ? String(route.query[key]) : (defaultValue ?? ''),
         resetModel: defaultValue ?? '',
-        filter: (value: boolean) => (value ? { [filterKey]: true } : undefined),
-        route: (value: boolean) => (value ? { [key]: true } : undefined),
+        filter: (value: string) => (value ? { [filterKey]: value } : undefined),
+        route: (value: string) => (value ? { [key]: value } : undefined),
         aggregation: () => ({ [aggKey]: key }),
       }
     },
