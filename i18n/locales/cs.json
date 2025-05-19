@@ -18,6 +18,9 @@
     "search": {
       "placeholder": "Napište klíčová slova",
       "label": "Klíčová slova"
+    },
+    "select": {
+      "noResults": "Žádné výsledky"
     }
   },
   "featuredCollection": {

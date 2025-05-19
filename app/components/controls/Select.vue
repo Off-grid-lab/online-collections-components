@@ -44,6 +44,7 @@
         />
 
         <div
+          v-if="sortedOptions.length"
           v-for="option in sortedOptions"
           :key="option.value"
           class="wu-dropdown-item flex items-center py-1.5 px-3 gap-2 cursor-pointer"
@@ -62,6 +63,9 @@
           <div>
             {{ option.label }} <span class="font-sans font-bold">({{ option.count }})</span>
           </div>
+        </div>
+        <div v-else class="py-1.5 px-3">
+          {{ $t('controls.select.noResults') }}
         </div>
       </div>
     </template>
@@ -104,7 +108,7 @@ const cssClasses = computed(() => ({
   'is--open': isOpen.value,
 }))
 
-const isDisabled = computed(() => !sortedOptions.value.length)
+const isDisabled = computed(() => !options.value?.[props.name]?.length)
 
 const sortedOptions = computed(() => {
   const o = options.value?.[props.name]?.map((l: any) => ({
