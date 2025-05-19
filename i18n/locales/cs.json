@@ -41,7 +41,8 @@
       "tags": "Klíčová slova",
       "technique": "Technika",
       "topic": "Námět",
-      "workType": "Výtvarný druh"
+      "workType": "Výtvarný druh",
+      "location": "Lokace"
     },
     "resultsCount": "děl|dílo|díla|děl",
     "resultsFor": "nalezenych pro",
