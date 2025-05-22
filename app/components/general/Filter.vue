@@ -31,7 +31,7 @@ import FilterSelected from '~/components/general/FilterSelected.vue'
 import Select from '~/components/controls/Select.vue'
 import Range from '~/components/controls/Range.vue'
 import Boolean from '~/components/controls/Boolean.vue'
-import type Hidden from '~/components/controls/Hidden.vue'
+import Hidden from '~/components/controls/Hidden.vue'
 import Hr from '~/components/controls/Hr.vue'
 
 const isMobileMenuOpened = ref(false)
@@ -43,6 +43,7 @@ const components = {
   select: Select,
   range: Range,
   hr: Hr,
+  hidden: Hidden,
 }
 
 const { controls } = await useControls()
