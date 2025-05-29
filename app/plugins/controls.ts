@@ -175,6 +175,7 @@ const controlsService = async (
       return {
         type: 'hidden',
         key,
+        label,
         aggKey,
         filterKey,
         initModel: route.query[key] ? String(route.query[key]) : (defaultValue ?? ''),
@@ -185,7 +186,8 @@ const controlsService = async (
         filter: (value: string) => (value ? { [filterKey]: value } : undefined),
         route: (value: string) => (value ? { [key]: value } : undefined),
         aggregation: () => ({ [aggKey]: key }),
-        toggle: (value: string) => model[key] = value ? value : undefined,
+        // todo split to set and unset
+        toggle: (value: string) => model[key] = (model[key] ? undefined : (value ? value : undefined)),
       }
     },
 
