@@ -168,7 +168,7 @@ const controlsService = async (
       }
     },
 
-    hidden: ({ key, defaultValue }: ISetupOptions) => {
+    hidden: ({ key, defaultValue, label }: ISetupOptions) => {
       const aggKey = `terms[${key}]`
       const filterKey = `filter[${key}]`
 
@@ -179,6 +179,9 @@ const controlsService = async (
         filterKey,
         initModel: route.query[key] ? String(route.query[key]) : (defaultValue ?? ''),
         resetModel: defaultValue ?? '',
+        selected: () => model[key]
+          ? { key, value: model[key], label }
+          : null,
         filter: (value: string) => (value ? { [filterKey]: value } : undefined),
         route: (value: string) => (value ? { [key]: value } : undefined),
         aggregation: () => ({ [aggKey]: key }),
