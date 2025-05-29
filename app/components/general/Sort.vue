@@ -15,6 +15,11 @@
 <script lang="ts" setup>
 import Dropdown from '~/components/general/Dropdown.vue'
 import { useControls } from '~/composables/controls'
+import { defaultSortBy, defaultSortDirection } from '~/composables/useDefaultSort'
+
+const props = defineProps<{
+  defaultSortBy?: (typeof sortOptions)[number]['value']
+}>()
 
 const { sortBy, sortDirection } = await useControls()
 const { t } = useI18n()
@@ -28,8 +33,16 @@ const sortOptions = [
   { label: t('item.sortOptions.random'), value: 'random', direction: 'asc' },
 ] as const
 
-const model = ref<(typeof sortOptions)[number]['value']>(
-  sortOptions.find(option => option.value === sortBy.value)?.value ?? sortOptions[0].value,
+if (props.defaultSortBy) {
+  const option = sortOptions.find(opt => opt.value === props.defaultSortBy)
+  if (option) {
+    defaultSortBy.value = option.value
+    defaultSortDirection.value = option.direction
+  }
+}
+
+const model = ref<string>(
+  sortOptions.find(option => option.value === sortBy.value)?.value ?? defaultSortBy.value,
 )
 
 const onUpdate = (value: string) => {
