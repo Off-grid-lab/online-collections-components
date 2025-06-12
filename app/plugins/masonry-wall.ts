@@ -1,5 +1,5 @@
 import MasonryWall from '@yeger/vue-masonry-wall'
-import MobileDetect from 'mobile-detect'
+import * as MobileDetect from 'mobile-detect'
 import { defineNuxtPlugin, useRequestHeaders } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
